@@ -31,10 +31,18 @@ flow:
         publish:
           - uuid: '${new_uuid}'
         navigate:
+          - SUCCESS: trim
+    - trim:
+        do:
+          io.cloudslang.base.strings.substring:
+            - origin_string: '${"petr-"+uuid}'
+            - end_index: '13'
+        publish:
+          - uuid: '${new_string}'
+        navigate:
           - SUCCESS: SUCCESS
-
-
-
+          - FAILURE: FAILURE
 
   results:
     - SUCCESS
+    - FAILURE
