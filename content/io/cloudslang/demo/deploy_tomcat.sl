@@ -41,7 +41,7 @@ flow:
             - origin_string: '${"ex-"+uuid}'
             - end_index: '13'
         publish:
-          - uuid: '${new_string}'
+          - id: '${new_string}'
         navigate:
           - SUCCESS: clone_vm
           - FAILURE: FAILURE
