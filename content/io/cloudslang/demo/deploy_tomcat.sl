@@ -13,6 +13,9 @@
 ########################################################################################################################
 
 namespace: content.io.cloudslang.demo
+imports:
+ base: io.cloudslang.base
+ vm: io.cloudslang.vmware.vcenter.virtual_machines
 
 flow:
   name: deploy_tomcat
@@ -27,22 +30,38 @@ flow:
   workflow:
     - uuid_generator:
         do:
-          io.cloudslang.base.utils.uuid_generator: null
+          base.utils.uuid_generator:
         publish:
           - uuid: '${new_uuid}'
         navigate:
           - SUCCESS: trim
     - trim:
         do:
-          io.cloudslang.base.strings.substring:
-            - origin_string: '${"petr-"+uuid}'
+          base.strings.substring:
+            - origin_string: '${"ex-"+uuid}'
             - end_index: '13'
         publish:
           - uuid: '${new_string}'
         navigate:
+          - SUCCESS: clone_vm
+          - FAILURE: FAILURE
+    - clone_vm:
+        do:
+          vm.clone_virtual_machine:
+            - host: '${hostname}'
+            - hostname: 'trnesxi3.eswdc.net'
+            - username: '${username}'
+            - password: '${password}'
+            - clone_host: 'trnesxi3.eswdc.net'
+            - clone_data_store: 'datastore2'
+            - data_center_name: 'CAPA1 Datacenter'
+            - is_template: 'false'
+            - virtual_machine_name: '${image}'
+            - clone_name: '${id}'
+            - folder_name: '${folder}'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
-
   results:
     - SUCCESS
     - FAILURE
