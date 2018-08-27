@@ -9,19 +9,21 @@
 #!
 #! @result SUCCESS: Flow completed successfully.
 #! @result FAILURE: Failure occurred during execution.
-#!!
+#!!#
 ########################################################################################################################
 
 namespace: content.io.cloudslang.demo
 
 flow:
   name: deploy_tomcat
+
   inputs:
     - hostname: "10.0.46.10"
     - username: "CAPA1\\1047-capa1user"
     - password: "Automation123"
-    - image: "Ubuntu"
+    - image: "Ubuntu"
     - folder: "Students"
+
   workflow:
     - uuid_generator:
         do:
@@ -30,5 +32,9 @@ flow:
           - uuid: '${new_uuid}'
         navigate:
           - SUCCESS: SUCCESS
+
+
+
+
   results:
     - SUCCESS
