@@ -60,8 +60,19 @@ flow:
             - clone_name: '${id}'
             - folder_name: '${folder}'
         navigate:
+          - SUCCESS: power_on
+          - FAILURE: FAILURE
+    - power_on:
+        do:
+          vm.vm.power_on_virtual_machine:
+            - host: '${hostname}'
+            - username: '${username}'
+            - password: '${password}'
+            - virtual_machine_name: '${id}'
+        navigate:
           - SUCCESS: SUCCESS
           - FAILURE: FAILURE
+
   results:
     - SUCCESS
     - FAILURE
